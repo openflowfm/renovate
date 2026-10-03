@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Shared Renovate preset for openflowfm repos. Extend it as github>openflowfm/renovate.",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "timezone": "Etc/UTC",
+  "schedule": ["before 6am on monday"],
+  "packageRules": [
+    {
+      "description": "Group every @openflow/* update into one PR and raise it as soon as it is published.",
+      "matchPackageNames": ["@openflow/**"],
+      "groupName": "openflow modules",
+      "schedule": ["at any time"]
+    },
+    {
+      "description": "Automerge patch and minor @openflow/* updates once CI passes. Majors wait for a human.",
+      "matchPackageNames": ["@openflow/**"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    }
+  ]
+}
