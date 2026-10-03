@@ -17,6 +17,13 @@
       "matchPackageNames": ["@openflow/**"],
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true
+    },
+    {
+      "description": "On 0.x a minor bump (0.1 to 0.2) is breaking under semver, so it waits for a human.",
+      "matchPackageNames": ["@openflow/**"],
+      "matchUpdateTypes": ["minor"],
+      "matchCurrentVersion": "<1.0.0",
+      "automerge": false
     }
   ]
 }

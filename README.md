@@ -15,7 +15,7 @@ This repo holds two things:
 ## What the preset does
 
 - Starts from `config:recommended`, with the dependency dashboard on (one "Dependency Dashboard" issue per repo).
-- **`@openflow/*` packages**: every update goes into one PR, "Update openflow modules", raised as soon as a version is published (no schedule). Patch and minor updates automerge once CI passes. Major updates get their own "openflow modules (major)" PR that waits for a human.
+- **`@openflow/*` packages**: every update goes into one PR, "Update openflow modules", raised as soon as a version is published (no schedule). Patch and minor updates automerge once CI passes, except minor updates of a package still below 1.0.0 (0.1 to 0.2 is breaking under semver), which wait for a human. Patch updates on 0.x still automerge. Major updates get their own "openflow modules (major)" PR that waits for a human.
 - **Everything else** (third-party dependencies, GitHub Actions, and so on): raised weekly, before 6am UTC on Monday. Nothing third-party automerges.
 
 A repo can add its own rules after the `extends` line in its `renovate.json`; they apply on top of the preset.
@@ -92,7 +92,7 @@ For automerge to use GitHub's own auto-merge, each repo needs **Settings → Gen
 
 Without it (or when the branch has no required status checks, which GitHub's auto-merge needs), Renovate merges the PR itself on a later run, once every check on the branch is green. That works too, just up to an hour later. Either way:
 
-- A repo needs CI that runs on PRs. Renovate never automerges a branch with no checks.
+- Each repo needs CI that runs on PRs before automerge is safe. Renovate treats a branch with no checks as passing, so in a repo without PR CI it automerges untested updates.
 - If branch protection requires an approving review, automerge can't happen; Renovate leaves the PR open for a human.
 
 ## Running it by hand
